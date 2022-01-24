@@ -6,7 +6,8 @@ function setup() {
   vertex2 = new CurveVertex(700,400, 15, 15);
   controlPoint1 = new CurveVertex(200,300, 15, 15);
   controlPoint2 = new CurveVertex(600,500, 15, 15);
-
+  
+  ALPHA = 0.75;
 
   // visualisation parameters
   cubicBool = createCheckbox('Cubic?');
@@ -15,10 +16,7 @@ function setup() {
 }
 
 function draw() {
-  noStroke();
   background(0);
-
-
   delta = Tslider.value();
 
   vertex1.over();
@@ -44,7 +42,6 @@ function draw() {
 
   // draw points acording to t
   noFill();
-
   beginShape();
 
   for (t = 0; t <= 1.00000001; t += delta) {
@@ -61,9 +58,6 @@ function draw() {
   stroke(255);
   strokeWeight(2);
   endShape();
-
-
-
 }
 
 
@@ -93,12 +87,10 @@ function quadraticBezier(t, anchor1, control, anchor2) {
     let visualiseX2 = lerp(control.x, anchor2.x, t);
     let visualiseY2 = lerp(control.y, anchor2.y, t);
     colorMode(HSB);
-    stroke(t*360, 255, 255, 128, 0.2);
+    stroke(t*360, 255, 255, ALPHA);
     line(visualiseX,visualiseY,visualiseX2,visualiseY2);
 
   }
-
-
 
   return [x,y];
 }
@@ -111,7 +103,7 @@ function cubicBezier(t, anchor1, control1, control2, anchor2) {
     quad1 = quadraticBezier(t, anchor1, control1, control2);
     quad2 = quadraticBezier(t, control1, control2, anchor2);
     colorMode(HSB);
-    stroke(t*360, 255, 255, 128, 0.2);
+    stroke(t*360, 255, 255, ALPHA);
     line(quad1[0], quad1[1], quad2[0], quad2[1]);
 
   }
@@ -119,4 +111,3 @@ function cubicBezier(t, anchor1, control1, control2, anchor2) {
   return [x,y];
 }
 
-//bezier(vertex1.x, vertex1.y, controlPoint1.x,controlPoint1.y ,controlPoint2.x,controlPoint2.y,vertex2.x,vertex2.y);
