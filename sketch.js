@@ -44,7 +44,7 @@ function draw() {
 
   // draw points acording to t
   noFill();
-  stroke(255);
+
   beginShape();
 
   for (t = 0; t <= 1.00000001; t += delta) {
@@ -57,6 +57,9 @@ function draw() {
     vertex(points[0], points[1]);
   }
   vertex(vertex2.x,vertex2.y);
+  colorMode(RGB);
+  stroke(255);
+  strokeWeight(2);
   endShape();
 
 
@@ -85,12 +88,12 @@ function quadraticBezier(t, anchor1, control, anchor2) {
   let y = ((1 - t)**2 * anchor1.y) + 2*(1 - t)*t*control.y + (t**2)*anchor2.y;
 
   if (tangentVisualiser.checked()) {
-    let visualiseX = lerp(anchor1.x, controlPoint1.x, t);
-    let visualiseY = lerp(anchor1.y, controlPoint1.y, t);
-    let visualiseX2 = lerp(controlPoint1.x, anchor2.x, t);
-    let visualiseY2 = lerp(controlPoint1.y, anchor2.y, t);
+    let visualiseX = lerp(anchor1.x, control.x, t);
+    let visualiseY = lerp(anchor1.y, control.y, t);
+    let visualiseX2 = lerp(control.x, anchor2.x, t);
+    let visualiseY2 = lerp(control.y, anchor2.y, t);
     colorMode(HSB);
-    stroke(t*360, 255, 255, 128);
+    stroke(t*360, 255, 255, 128, 0.2);
     line(visualiseX,visualiseY,visualiseX2,visualiseY2);
 
   }
@@ -108,7 +111,8 @@ function cubicBezier(t, anchor1, control1, control2, anchor2) {
     quad1 = quadraticBezier(t, anchor1, control1, control2);
     quad2 = quadraticBezier(t, control1, control2, anchor2);
     colorMode(HSB);
-    stroke(t*360, 255, 255, 128);
+    stroke(t*360, 255, 255, 128, 0.2);
+    line(quad1[0], quad1[1], quad2[0], quad2[1]);
 
   }
 
