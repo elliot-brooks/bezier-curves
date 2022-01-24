@@ -28,15 +28,17 @@ function draw() {
   vertex2.over();
   vertex2.update();
   vertex2.show();
+  
+  controlPoint1.over();
+  controlPoint1.update();
+  controlPoint1.show();
 
   if (cubicBool.checked()) {
     controlPoint2.over();
     controlPoint2.update();
     controlPoint2.show();
   }
-  controlPoint1.over();
-  controlPoint1.update();
-  controlPoint1.show();
+
 
 
 
@@ -50,7 +52,7 @@ function draw() {
       var points = quadraticBezier(t, vertex1, controlPoint1, vertex2);
     }
     else{
-      var points = quadraticBezier(t, vertex1, controlPoint1, vertex2);
+      var points = cubicBezier(t, vertex1, controlPoint1, controlPoint2, vertex2);
     }
     vertex(points[0], points[1]);
   }
@@ -99,6 +101,18 @@ function quadraticBezier(t, anchor1, control, anchor2) {
 }
 
 function cubicBezier(t, anchor1, control1, control2, anchor2) {
+  let x = anchor1.x * (1-t)**3 + 3*t*control1.x*(1-t)**2 + (t**2)*3*(1-t)*control2.x + anchor2.x*(t**3);
+  let y = anchor1.y * (1-t)**3 + 3*t*control1.y*(1-t)**2 + (t**2)*3*(1-t)*control2.y + anchor2.y*(t**3);
+
+  if(tangentVisualiser.checked()) {
+    quad1 = quadraticBezier(t, anchor1, control1, control2);
+    quad2 = quadraticBezier(t, control1, control2, anchor2);
+    colorMode(HSB);
+    stroke(t*360, 255, 255, 128);
+
+  }
+
+  return [x,y];
 }
 
 //bezier(vertex1.x, vertex1.y, controlPoint1.x,controlPoint1.y ,controlPoint2.x,controlPoint2.y,vertex2.x,vertex2.y);
