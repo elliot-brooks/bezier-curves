@@ -37,9 +37,6 @@ function draw() {
     controlPoint2.show();
   }
 
-
-
-
   // draw points acording to t
   noFill();
   beginShape();
